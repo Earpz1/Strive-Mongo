@@ -2,6 +2,18 @@ import express from 'express'
 import { model } from 'mongoose'
 import postsModel from './model.js'
 import createHttpError from 'http-errors'
+import multer from 'multer'
+import { CloudinaryStorage } from 'multer-storage-cloudinary'
+import { v2 as cloudinary } from 'cloudinary'
+
+const blogCoverPhoto = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: 'StriveBlog',
+    },
+  }),
+}).single('cover')
 
 const postsRouter = express.Router()
 
@@ -60,5 +72,22 @@ postsRouter.delete('/:postID', async (request, response, next) => {
     next(error)
   }
 })
+
+postsRouter.post(
+  '/:postID/uploadCover',
+  blogCoverPhoto,
+  async (request, response, next) => {
+    try {
+      const url = request.file.path
+
+      const post = await postsModel.findByIdAndUpdate(request.params.postID, {
+        cover: url,
+      })
+      response.status(200).send('File Uploaded')
+    } catch (error) {
+      next(error)
+    }
+  },
+)
 
 export default postsRouter
