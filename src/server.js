@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import postsRouter from '../api/posts/index.js'
+import authorsRouter from '../api/authors/index.js'
 
 const server = express()
 const port = process.env.PORT || 3001
@@ -12,6 +13,7 @@ server.use(express.json())
 
 // Endpoints
 server.use('/posts', postsRouter)
+server.use('/authors', authorsRouter)
 
 //Connect to the mongoose DB
 mongoose.connect(process.env.MONGO_DB_URL)
