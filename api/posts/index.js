@@ -40,7 +40,9 @@ postsRouter.get('/', async (request, response, next) => {
 
 postsRouter.get('/:postID', async (request, response, next) => {
   try {
-    const post = await postsModel.findById(request.params.postID)
+    const post = await postsModel
+      .findById(request.params.postID)
+      .populate({ path: 'author' })
     if (post) {
       response.send(post)
     } else {
@@ -125,7 +127,9 @@ postsRouter.post('/:postID', async (request, response, next) => {
         { $push: { comments: request.body } },
         { new: true },
       )
-      response.status(200).send(`New comment has been added`)
+      response
+        .status(200)
+        .send(`New comment has been added to ${request.params.postID}`)
     }
   } catch (error) {
     next(error)

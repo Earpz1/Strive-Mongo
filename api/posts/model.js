@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { SchemaType } from 'mongoose'
 
 const { Schema, model } = mongoose
 
@@ -20,10 +20,9 @@ const postSchema = new Schema(
       value: { type: Number },
       unit: { type: String },
     },
-    author: {
-      name: { type: String, required: true },
-      avatar: { type: String, required: true },
-    },
+    author: [
+      { type: Schema.Types.ObjectId, required: true, ref: 'authorModel' },
+    ],
     comments: [commentSchema],
     content: { type: String, required: true },
   },
