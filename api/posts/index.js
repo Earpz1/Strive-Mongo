@@ -7,6 +7,7 @@ import multer from 'multer'
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import { v2 as cloudinary } from 'cloudinary'
 import uniqid from 'uniqid'
+import { AuthMiddleware } from '../../lib/auth.js'
 
 const blogCoverPhoto = multer({
   storage: new CloudinaryStorage({
@@ -29,7 +30,7 @@ postsRouter.post('/', async (request, response, next) => {
   }
 })
 
-postsRouter.get('/', async (request, response, next) => {
+postsRouter.get('/', AuthMiddleware, async (request, response, next) => {
   try {
     const posts = await postsModel.find({}).limit(request.query.limit)
     response.status(200).send(posts)

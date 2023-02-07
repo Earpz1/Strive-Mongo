@@ -3,7 +3,7 @@ import multer from 'multer'
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import { v2 as cloudinary } from 'cloudinary'
 import postModel from '../posts/model.js'
-import authorModel from './model.js'
+import userModel from './model.js'
 
 const avatarPhoto = multer({
   storage: new CloudinaryStorage({
@@ -18,8 +18,8 @@ const authorsRouter = express.Router()
 
 authorsRouter.post('/', async (request, response, next) => {
   try {
-    const newAuthor = await authorModel(request.body)
-    const { _id } = await newAuthor.save()
+    const newUser = await userModel(request.body)
+    const { _id } = await newUser.save()
     response.status(200).send({ _id })
   } catch (error) {
     next(error)
