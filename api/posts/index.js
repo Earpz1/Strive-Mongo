@@ -29,7 +29,7 @@ postsRouter.post('/', async (request, response, next) => {
   }
 })
 
-postsRouter.get('/', AuthMiddleware, async (request, response, next) => {
+postsRouter.get('/', async (request, response, next) => {
   try {
     const posts = await postsModel.find({}).limit(request.query.limit)
     response.status(200).send(posts)
