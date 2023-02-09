@@ -1,12 +1,11 @@
 import express from 'express'
 import { model } from 'mongoose'
 import postsModel from './model.js'
-import commentSchema from '../comments/model.js'
+
 import createHttpError from 'http-errors'
 import multer from 'multer'
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
 import { v2 as cloudinary } from 'cloudinary'
-import uniqid from 'uniqid'
 import { AuthMiddleware } from '../../lib/auth.js'
 
 const blogCoverPhoto = multer({
